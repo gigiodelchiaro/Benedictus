@@ -127,5 +127,3 @@ var getGabc = function(){
   if(!header['%fontsize']) header['%fontsize'] = '20';
   return gabc = header + gabc.slice(header.original.length);
 }
-
-  

@@ -20,8 +20,7 @@
         if (editor) {
           editor.value = decodeURIComponent(gabcContent);
           // Trigger any change events if necessary for the editor to update its display
-          editor.dispatchEvent(new Event('input'));
-          editor.dispatchEvent(new Event('change'));
+          updateEditor();
         }
       }
     });
@@ -66,6 +65,7 @@ textarea{
   <label for="editor" title="Enter GABC notation here.">GABC Editor</label>
   <button onclick="window.open('https:\/\/editor.sourceandsummit.com/legacy/#annotation%3A%20%0A%25%25%0A' + encodeURIComponent(document.getElementById('editor').value), '_blank')">Abrir em Illuminare</button>
   <br><div class="tap"><textarea id="editor" spellcheck="false" style="height: 130pt; width: 100%;">
+(c4)E(d) u(c) o(d) u(e) a(d) e.(c)
   </textarea></div>
 </div>
 <div id="chant-parent2">
