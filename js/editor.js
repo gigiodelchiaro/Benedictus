@@ -102,11 +102,11 @@ $(function() {
     var selectionStart = textarea.selectionStart;
     var selectionEnd = textarea.selectionEnd;
 
-    var textToInsert = prompt("Enter text to insert:");
+    var textToInsert = prompt("Insira o acorde:");
     if (textToInsert !== null) { // Check if user clicked Cancel
       var currentText = textarea.value;
-      var newText = currentText.substring(0, selectionEnd) + "[alt: \\Large \\color{red} " + textToInsert + "]" + currentText.substring(selectionEnd);
-      textarea.value = newText;
+      var newText = currentText.substring(0, selectionEnd) + "[alt: \\Large \\color{red} " + textToInsert + "])(" + currentText.substring(selectionEnd);
+      textarea.value = newText.replace("()", '');
       updateEditor();
       // Optionally, set the cursor after the inserted text
       textarea.setSelectionRange(selectionEnd + textToInsert.length, selectionEnd + textToInsert.length);
