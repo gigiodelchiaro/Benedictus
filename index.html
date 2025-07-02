@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GABC Editor</title>
+  <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="js/jquery.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+  <script src="js/util.js" type="text/javascript"></script>
+  <script src="js/exsurge.min.js"></script>
+  <script src="js/saveSvgAsPng.js"></script>
+  <script src="js/editor.js"></script>
+</head>
+<body class='sans' style='overflow:hidden;padding: 8px'>
+<style>
+textarea{
+  padding:0px;
+}
+.dp{
+  padding-right:16px;
+}
+.tap{
+  padding-right:2px;
+}
+td{
+  padding:0px;
+}
+#chant-parent2{
+  width:10.3in;
+  max-width:100%;
+  margin:auto;
+  height:100%;
+}
+#chant-parent{
+  border:1px solid #aaa;
+  overflow-y:auto;
+  height:100%;
+}
+#chant-pad{
+  padding:0 0.1in;
+}
+#chant-preview{
+  margin:0.1in auto auto;
+}
+textarea{
+  resize:none;
+}
+</style>
+<div style="width:100%;margin-bottom:5px">
+  <label for="editor" title="Enter GABC notation here.">GABC Editor</label>
+  <div class="btn-group pull-right">
+    <a id="lnkPdf" class="btn btn-default" href="#" title="Download a PDF of the chant.">Download PDF</a>
+  </div>
+  <br><div class="tap"><textarea id="editor" spellcheck="false" style="height: 130pt; width: 100%;">
+(c4)Ad(d)o(d)ro(d) te(d) de(dc)vo(f)te,(fe) la(d)tens(cd) De(d)i(d)tas,(d.) (::)
+Quæ(d) sub(d) his(d) fi(d)gu(dc)ris(f) ve(fe)re(d) la(cd)ti(d)tas.(d.) (::)
+Ti(d)bi(d) se(d) cor(d) me(d)um(dc) to(f)tum(fe) sub(d)ji(cd)cit,(d.) (::)
+Qui(d)a(d) te(d) con(d)tem(dc)plans(f) to(fe)tum(d) de(cd)fi(d)cit.(d.) (::)
+  </textarea></div>
+</div>
+<div id="chant-parent2">
+  <div id="chant-parent">
+    <div id="chant-pad">
+      <div id="chant-preview" class="clickable"></div>
+    </div>
+  </div>
+</div>
+  <svg class="bg-blur">
+  <defs>
+    <filter id="text-glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5 5" result="glow"/>
+      <feFlood flood-color="#337ab7" result="COLOR" />
+      <feComposite in="COLOR" in2="glow" operator="in" result="glow-color" />
+      <feMerge>
+        <feMergeNode in="glow-color"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="note-glow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="5 5" result="glow"/>
+      <feFlood flood-color="#337ab7" result="COLOR" />
+      <feComposite in="COLOR" in2="glow" operator="in" result="glow-color" />
+      <feMerge>
+        <feMergeNode in="glow-color"/>
+        <feMergeNode in="glow-color"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  </svg>
+<form id="pdfForm" method="POST" action="https://www.sourceandsummit.com/editor/legacy/" target="_blank" style="display:none;">
+</form>
+<form id="pdfFormDirect" method="POST" action="https://www.sourceandsummit.com/editor/legacy/pdf" target="_blank" style="display:none;">
+</form>
+</body>
+</html>
