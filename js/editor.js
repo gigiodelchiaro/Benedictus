@@ -36,7 +36,7 @@ function gabcToExsurge(gabc) {
     .replace(/<\/?sc>/g,'%')
     .replace(/<\/?b>/g,'*')
     .replace(/<\/?i>/g,'_')
-      .replace(/(\s)_([^\s*]+)_(\(\))?(\s)/g,"$1^_$2_^$3$4")
+      .replace(/(\s)_([^\s*]+)_(\(\))?(\s)/g,"$1^$2^$3$4")
       .replace(/(\([cf][1-4]\)|\s)(\d+\.)(\s\S)/g,"$1^$2^$3");
 }
 
@@ -118,30 +118,14 @@ $(function() {
   updateEditor();
 });
 
-  var getGabc = function(){
-    var gabc = $('#editor').val(),
-        header = getHeader(gabc);
-    if(!header.name) header.name = '';
-    if(!header['%font']) header['%font'] = 'GaramondPremierPro';
-    if(!header['%width']) header['%width'] = '7.5';
-    if(!header['%fontsize']) header['%fontsize'] = '20';
-    return gabc = header + gabc.slice(header.original.length);
-  }
-  $('#lnkPdf').click(function(e){
-    var result=getGabc();    
-    if(e && typeof(e.preventDefault)=="function"){
-      e.preventDefault();
-    }
-    $('#pdfForm').attr('action','https://www.sourceandsummit.com/editor/legacy/#' + encodeURI(result)).submit();
-  });
-  $('#lnkPdfDirect').click(function(e){
-    var gabcs=[getGabc()];
-    if(e && typeof(e.preventDefault)=="function"){
-      e.preventDefault();
-    }
-    $('#pdfFormDirect [name="gabc[]"]').remove();
-    for(var i=0;i<gabcs.length;++i){
-      $('#pdfFormDirect').append($('<input type="hidden" name="gabc[]"/>').val(gabcs[i]));
-    }
-    $("#pdfFormDirect").submit();
-  });
+var getGabc = function(){
+  var gabc = $('#editor').val(),
+      header = getHeader(gabc);
+  if(!header.name) header.name = '';
+  if(!header['%font']) header['%font'] = 'GaramondPremierPro';
+  if(!header['%width']) header['%width'] = '7.5';
+  if(!header['%fontsize']) header['%fontsize'] = '20';
+  return gabc = header + gabc.slice(header.original.length);
+}
+
+  

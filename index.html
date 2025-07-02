@@ -11,6 +11,21 @@
   <script src="js/exsurge.min.js"></script>
   <script src="js/saveSvgAsPng.js"></script>
   <script src="js/editor.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const gabcContent = urlParams.get('gabc');
+      if (gabcContent) {
+        const editor = document.getElementById('editor');
+        if (editor) {
+          editor.value = decodeURIComponent(gabcContent);
+          // Trigger any change events if necessary for the editor to update its display
+          editor.dispatchEvent(new Event('input'));
+          editor.dispatchEvent(new Event('change'));
+        }
+      }
+    });
+  </script>
 </head>
 <body class='sans' style='overflow:hidden;padding: 8px'>
 <style>
@@ -49,9 +64,7 @@ textarea{
 </style>
 <div style="width:100%;margin-bottom:5px">
   <label for="editor" title="Enter GABC notation here.">GABC Editor</label>
-  <div class="btn-group pull-right">
-    <a id="lnkPdf" class="btn btn-default" href="#" title="Download a PDF of the chant.">Download PDF</a>
-  </div>
+  <button onclick="window.open('https:\/\/editor.sourceandsummit.com/legacy/#annotation%3A%20%0A%25%25%0A' + encodeURIComponent(document.getElementById('editor').value), '_blank')">Abrir em Illuminare</button>
   <br><div class="tap"><textarea id="editor" spellcheck="false" style="height: 130pt; width: 100%;">
 (c4)Ad(d)o(d)ro(d) te(d) de(dc)vo(f)te,(fe) la(d)tens(cd) De(d)i(d)tas,(d.) (::)
 Quæ(d) sub(d) his(d) fi(d)gu(dc)ris(f) ve(fe)re(d) la(cd)ti(d)tas.(d.) (::)
@@ -89,9 +102,6 @@ Qui(d)a(d) te(d) con(d)tem(dc)plans(f) to(fe)tum(d) de(cd)fi(d)cit.(d.) (::)
     </filter>
   </defs>
   </svg>
-<form id="pdfForm" method="POST" action="https://www.sourceandsummit.com/editor/legacy/" target="_blank" style="display:none;">
-</form>
-<form id="pdfFormDirect" method="POST" action="https://www.sourceandsummit.com/editor/legacy/pdf" target="_blank" style="display:none;">
-</form>
+
 </body>
 </html>
