@@ -1,5 +1,6 @@
 var _hymnGabcMap=[];
 var _textGabcMap=[];
+var editMode = 'separator';
 
 function updateEditor() {
   var gabc = $("#editor").val();
@@ -25,7 +26,7 @@ function windowResized(){
 function gabcToExsurge(gabc) {
   return gabc
     .replace(/\\Large/g, '') // Remove \\Large
-    .replace(/\\color{[^}]+}/g, '') // Remove \\color{...}
+    .replace(/\\color{[^}]+}/g, '<c>') // Remove \\color{...}
     .replace(/(<b>[^<]+)<sp>'(?:oe|œ)<\/sp>/g,'$1œ</b>\u0301<b>') // character doesn't work in the bold version of this font.
     .replace(/<v>\\([VRAvra])bar<\/v>/g,'$1/.')
     .replace(/<sp>([VRAvra])\/<\/sp>\.?/g,'$1/.')
@@ -102,16 +103,43 @@ $(function() {
     var selectionStart = textarea.selectionStart;
     var selectionEnd = textarea.selectionEnd;
 
-    var textToInsert = prompt("Insira o acorde:");
-    if (textToInsert !== null) { // Check if user clicked Cancel
+    if (editMode === 'chord') {
+      var textToInsert = prompt("Insira o acorde:");
+      if (textToInsert !== null) { // Check if user clicked Cancel
+        var currentText = textarea.value;
+        var newText = currentText.substring(0, selectionEnd) + "<alt>\\Large \\color{red} " + textToInsert + "</alt>" + currentText.substring(selectionEnd);
+        textarea.value = newText.replace("()", '');
+        updateEditor();
+        // Optionally, set the cursor after the inserted text
+        textarea.setSelectionRange(selectionEnd + textToInsert.length, selectionEnd + textToInsert.length);
+        textarea.focus();
+      }
+    } else if (editMode === 'separator') {
+      // Remove all note blocks (...) and trim whitespace to get the lyrics
+
       var currentText = textarea.value;
-      var newText = currentText.substring(0, selectionEnd) + "[alt: \\Large \\color{red} " + textToInsert + "])(" + currentText.substring(selectionEnd);
-      textarea.value = newText.replace("()", '');
-      updateEditor();
-      // Optionally, set the cursor after the inserted text
-      textarea.setSelectionRange(selectionEnd + textToInsert.length, selectionEnd + textToInsert.length);
+
+      textarea.value = currentText.substring(0, selectionEnd) + ')-(' + currentText.substring(selectionEnd); 
+
+      updateEditor(); // Call your editor update function to refresh UI/state
+
+      // Set the cursor position after the inserted text.
+      var newCursorPosition = selectionEnd + 3;
+      textarea.setSelectionRange(newCursorPosition, newCursorPosition);
       textarea.focus();
-    }
+      }
+  });
+
+  $('#insert-chord-button').on('click', function() {
+    editMode = 'chord';
+    $('#insert-chord-button').removeClass('btn-default').addClass('btn-primary');
+    $('#insert-separator-button').removeClass('btn-primary').addClass('btn-default');
+  });
+
+  $('#insert-separator-button').on('click', function() {
+    editMode = 'separator';
+    $('#insert-separator-button').removeClass('btn-default').addClass('btn-primary');
+    $('#insert-chord-button').removeClass('btn-primary').addClass('btn-default');
   });
 
   windowResized();
