@@ -107,7 +107,7 @@ $(function() {
       var textToInsert = prompt("Insira o acorde:");
       if (textToInsert !== null) { // Check if user clicked Cancel
         var currentText = textarea.value;
-        var newText = currentText.substring(0, selectionEnd) + "<alt>\\Large \\color{red} " + textToInsert + "</alt>" + currentText.substring(selectionEnd);
+        var newText = currentText.substring(0, selectionEnd) + "<alt>" + textToInsert + "</alt>" + currentText.substring(selectionEnd);
         textarea.value = newText.replace("()", '');
         updateEditor();
         // Optionally, set the cursor after the inserted text
